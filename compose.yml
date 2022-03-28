@@ -1,0 +1,112 @@
+version: "3.8"
+
+#=================================================================================
+networks:
+    my-network:
+        external: true
+
+#=================================================================================
+services:
+    manager1:
+        image: mysql/mysql-cluster:latest
+        #restart: always
+        volumes:
+          - ./sv1/my.cnf:/etc/my.cnf
+          - ./sv1/mysql-cluster.cnf:/etc/mysql-cluster.cnf
+          - ./sv1/:/var/lib/mysql-cluster
+        command: ndb_mgmd
+        networks:
+          my-network:
+            ipv4_address: 10.1.1.9
+    #=================================================
+    ndbd1:
+        image: mysql/mysql-cluster:latest
+        #restart: always
+        volumes:
+          - ./node1/my.cnf:/etc/my.cnf
+          - ./node1/mysql-cluster.cnf:/etc/mysql-cluster.cnf
+          - ./node1/:/usr/local/mysql/data
+        command:
+          - ndbd
+        depends_on:
+          - "manager1"
+        networks:
+          my-network:
+            ipv4_address: 10.1.1.100
+    #==================================
+    ndbd2:
+        image: mysql/mysql-cluster:latest
+        #restart: always
+        volumes:
+          - ./node2/my.cnf:/etc/my.cnf
+          - ./node2/mysql-cluster.cnf:/etc/mysql-cluster.cnf
+          - ./node2/:/usr/local/mysql/data
+        command:
+          - ndbd
+        depends_on:
+          - "manager1"
+        networks:
+          my-network:
+            ipv4_address: 10.1.1.102
+    #==================================
+    ndbd3:
+        image: mysql/mysql-cluster:latest
+        #restart: always
+        volumes:
+          - ./node3/my.cnf:/etc/my.cnf
+          - ./node3/mysql-cluster.cnf:/etc/mysql-cluster.cnf
+          - ./node3/:/usr/local/mysql/data
+        command:
+          - ndbd
+        depends_on:
+          - "manager1"
+        networks:
+          my-network:
+            ipv4_address: 10.1.1.103
+    #==================================
+    ndbd4:
+        image: mysql/mysql-cluster:latest
+        #restart: always
+        volumes:
+          - ./node4/my.cnf:/etc/my.cnf
+          - ./node4/mysql-cluster.cnf:/etc/mysql-cluster.cnf
+          - ./node4/:/usr/local/mysql/data
+        command:
+          - ndbd
+        depends_on:
+          - "manager1"
+        networks:
+          my-network:
+            ipv4_address: 10.1.1.104
+    #==================================
+    ndbd5:
+        image: mysql/mysql-cluster:latest
+        #restart: always
+        volumes:
+          - ./node5/my.cnf:/etc/my.cnf
+          - ./node5/mysql-cluster.cnf:/etc/mysql-cluster.cnf
+          - ./node5/:/usr/local/mysql/data
+        command:
+          - ndbd
+        depends_on:
+          - "manager1"
+        networks:
+          my-network:
+            ipv4_address: 10.1.1.105
+    #==================================
+    ndbd6:
+        image: mysql/mysql-cluster:latest
+        #restart: always
+        volumes:
+          - ./node6/my.cnf:/etc/my.cnf
+          - ./node6/mysql-cluster.cnf:/etc/mysql-cluster.cnf
+          - ./node6/:/usr/local/mysql/data
+        command:
+          - ndbd
+        depends_on:
+          - "manager1"
+        networks:
+          my-network:
+            ipv4_address: 10.1.1.106
+
+    #=================================================
